@@ -1,7 +1,7 @@
 import Phaser from 'phaser'
 
 export const PLAYER_SPEED = 220
-export const JUMP_VELOCITY = -560
+export const JUMP_VELOCITY = -720
 
 type PlayerState = 'idle' | 'run' | 'jump'
 
