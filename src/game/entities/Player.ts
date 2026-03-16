@@ -69,10 +69,34 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     this.playAnimation(next)
   }
 
+  // Called once from Preload after sprite sheet is loaded.
+  // Registers idle, run, and jump animation keys against the player texture.
+  static registerAnimations(anims: Phaser.Animations.AnimationManager) {
+    if (anims.exists('player-idle')) return
+
+    anims.create({
+      key: 'player-idle',
+      frames: anims.generateFrameNumbers('player', { start: 0, end: 3 }),
+      frameRate: 8,
+      repeat: -1,
+    })
+    anims.create({
+      key: 'player-run',
+      frames: anims.generateFrameNumbers('player', { start: 4, end: 9 }),
+      frameRate: 12,
+      repeat: -1,
+    })
+    anims.create({
+      key: 'player-jump',
+      frames: anims.generateFrameNumbers('player', { start: 10, end: 12 }),
+      frameRate: 8,
+      repeat: 0,
+    })
+  }
+
   private playAnimation(state: PlayerState) {
-    // Animations will be wired here once sprite sheets are loaded.
-    // e.g. this.play(`player-${state}`, true)
-    void state
+    if (!this.anims.exists(`player-${state}`)) return
+    this.play(`player-${state}`, true)
   }
 
   get isGrounded(): boolean {
