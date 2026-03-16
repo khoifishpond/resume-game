@@ -5,7 +5,7 @@
 }
 
 body {
-  background: #000;
+  background: #1a1a2e;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -14,7 +14,26 @@ body {
 }
 
 main {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+/* Card sits in front of the canvas, no backdrop, anchored to top-center */
+.background-layer {
+  position: fixed;
+  top: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  pointer-events: none;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+canvas {
+  position: relative;
+  z-index: 1;
 }

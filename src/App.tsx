@@ -19,15 +19,17 @@ export default function App() {
 
   const handleDismiss = () => {
     setActiveMilestone(null)
-    EventBus.emit(Events.MILESTONE_CLOSE)
   }
 
   return (
     <main>
+      {/* Card sits behind the canvas in z-index */}
+      <div className="background-layer">
+        {activeMilestone && (
+          <MilestoneCard milestone={activeMilestone} onDismiss={handleDismiss} />
+        )}
+      </div>
       <GameCanvas />
-      {activeMilestone && (
-        <MilestoneCard milestone={activeMilestone} onDismiss={handleDismiss} />
-      )}
     </main>
   )
 }
