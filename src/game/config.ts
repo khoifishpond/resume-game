@@ -1,4 +1,7 @@
 import Phaser from 'phaser'
+import { Boot } from './scenes/Boot'
+import { Preload } from './scenes/Preload'
+import { MainGame } from './scenes/MainGame'
 
 export const gameConfig: Phaser.Types.Core.GameConfig = {
   type: Phaser.AUTO,
@@ -12,5 +15,5 @@ export const gameConfig: Phaser.Types.Core.GameConfig = {
       debug: false,
     },
   },
-  scene: [],
+  scene: [Boot, Preload, MainGame],
 }
