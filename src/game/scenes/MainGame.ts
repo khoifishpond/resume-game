@@ -1,6 +1,9 @@
 import Phaser from 'phaser'
 import { Player } from '../entities/Player'
+import { MilestoneMarker } from '../entities/MilestoneMarker'
+import { EventBus, Events } from '../EventBus'
 import { PLATFORM_DATA } from '../levels/platforms'
+import resumeData from '../../data/resume.json'
 
 const WORLD_WIDTH = 9000
 const WORLD_HEIGHT = 720
@@ -10,6 +13,8 @@ export class MainGame extends Phaser.Scene {
   private player!: Player
   private ground!: Phaser.Physics.Arcade.StaticGroup
   private platforms!: Phaser.Physics.Arcade.StaticGroup
+  private markers: MilestoneMarker[] = []
+  private eKey!: Phaser.Input.Keyboard.Key
   private bgFar!: Phaser.GameObjects.TileSprite
   private bgMid!: Phaser.GameObjects.TileSprite
   private bgNear!: Phaser.GameObjects.TileSprite
@@ -26,20 +31,40 @@ export class MainGame extends Phaser.Scene {
     this.createGround()
     this.createPlatforms()
     this.createDistanceMarkers()
+    this.createMilestoneMarkers()
+
     this.player = new Player(this, 100, GROUND_Y - 48)
     const playerSprite = this.player as unknown as Phaser.Physics.Arcade.Sprite
     this.physics.add.collider(playerSprite, this.ground)
     this.physics.add.collider(playerSprite, this.platforms)
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1)
+
+    this.eKey = this.input.keyboard!.addKey(Phaser.Input.Keyboard.KeyCodes.E)
+
+    // Resume game when React dismisses the card
+    EventBus.on(Events.MILESTONE_CLOSE, () => this.scene.resume(), this)
   }
 
   update() {
     this.player.update()
     this.scrollParallax()
+
+    const eJustDown = Phaser.Input.Keyboard.JustDown(this.eKey)
+    for (const marker of this.markers) {
+      marker.update(this.player.x, eJustDown)
+    }
+  }
+
+  private createMilestoneMarkers() {
+    for (const data of resumeData.milestones) {
+      this.markers.push(new MilestoneMarker(this, data))
+    }
+
+    // Pause the scene when a card opens — React overlay takes over
+    EventBus.on(Events.MILESTONE_OPEN, () => this.scene.pause(), this)
   }
 
   private createParallaxBackground() {
-    // TileSprites are fixed to the camera and tiled — scrollOffset drives the illusion of depth
     this.bgFar = this.add
       .tileSprite(0, WORLD_HEIGHT - 300 - 32, 1280, 300, 'bg-far')
       .setOrigin(0, 0)

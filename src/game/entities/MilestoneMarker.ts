@@ -14,7 +14,7 @@ export interface MilestoneData {
 const PROXIMITY = 100 // px — how close the player must be to trigger prompt
 
 export class MilestoneMarker extends Phaser.GameObjects.Container {
-  private data: MilestoneData
+  private milestone: MilestoneData
   private markerGfx: Phaser.GameObjects.Graphics
   private promptText: Phaser.GameObjects.Text
   private dismissed = false
@@ -24,7 +24,7 @@ export class MilestoneMarker extends Phaser.GameObjects.Container {
     const groundY = 688
     super(scene, data.worldX, groundY - 32)
 
-    this.data = data
+    this.milestone = data
 
     // Marker pole
     this.markerGfx = scene.add.graphics()
@@ -41,14 +41,14 @@ export class MilestoneMarker extends Phaser.GameObjects.Container {
       .setOrigin(0.5, 1)
       .setAlpha(0)
 
-    scene.add.existing(this)
+    scene.add.existing(this as unknown as Phaser.GameObjects.GameObject)
   }
 
   // Called every frame from MainGame with current player x position
   update(playerX: number, eKeyJustDown: boolean) {
     if (this.dismissed) return
 
-    const dist = Math.abs(playerX - this.data.worldX)
+    const dist = Math.abs(playerX - this.milestone.worldX)
     const inRange = dist < PROXIMITY
 
     if (inRange !== this.promptVisible) {
@@ -69,11 +69,11 @@ export class MilestoneMarker extends Phaser.GameObjects.Container {
     this.dismissed = true
     this.promptText.setAlpha(0)
     this.markerGfx.setAlpha(0.3)
-    EventBus.emit(Events.MILESTONE_OPEN, this.data)
+    EventBus.emit(Events.MILESTONE_OPEN, this.milestone)
   }
 
   private drawMarker() {
-    const x = this.data.worldX
+    const x = this.milestone.worldX
     const groundY = 688
 
     // Glowing orb
