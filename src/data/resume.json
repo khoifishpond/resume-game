@@ -1,0 +1,63 @@
+{
+  "milestones": [
+    {
+      "id": "csulb",
+      "worldX": 800,
+      "zone": 1,
+      "title": "B.S. Management Information Systems",
+      "company": "California State University Long Beach",
+      "dates": "",
+      "bullets": [
+        "Foundation in data systems, business technology, and information architecture"
+      ]
+    },
+    {
+      "id": "optum",
+      "worldX": 2400,
+      "zone": 2,
+      "title": "Associate Service Account Manager",
+      "company": "Optum",
+      "dates": "Oct 2017 – May 2022",
+      "bullets": [
+        "Navigated massive enterprise datasets across clinical and financial domains using SQL",
+        "Bridged business stakeholders and engineering, converting reporting needs into technical requirements"
+      ]
+    },
+    {
+      "id": "turing",
+      "worldX": 4200,
+      "zone": 3,
+      "title": "Back-End Certificate",
+      "company": "Turing School of Software & Design",
+      "dates": "2022 – 2023",
+      "bullets": [
+        "Completed intensive 8-month back-end engineering program",
+        "Mastered Ruby, Rails, Python, and test-driven development"
+      ]
+    },
+    {
+      "id": "chronograph-role",
+      "worldX": 6400,
+      "zone": 5,
+      "title": "Solutions Engineer",
+      "company": "Chronograph",
+      "dates": "May 2023 – Present",
+      "bullets": [
+        "Own end-to-end feature delivery, translating product specs into scalable SaaS tools",
+        "Maintain 90%+ test coverage and integrated AI tooling to accelerate velocity without compromising quality"
+      ]
+    },
+    {
+      "id": "client-services-tool",
+      "worldX": 7200,
+      "zone": 5,
+      "title": "Client Services Tool",
+      "company": "Project · Ruby on Rails, React, JavaScript",
+      "dates": "",
+      "bullets": [
+        "Built internal tool for bulk domain entity management via CSV/Excel imports with real-time validation",
+        "Reduced support ticket volume by 30% and empowered non-technical users to self-serve"
+      ]
+    }
+  ]
+}
