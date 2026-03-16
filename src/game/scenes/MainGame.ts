@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { Player } from '../entities/Player'
+import { PLATFORM_DATA } from '../levels/platforms'
 
 const WORLD_WIDTH = 9000
 const WORLD_HEIGHT = 720
@@ -8,6 +9,7 @@ const GROUND_Y = 688
 export class MainGame extends Phaser.Scene {
   private player!: Player
   private ground!: Phaser.Physics.Arcade.StaticGroup
+  private platforms!: Phaser.Physics.Arcade.StaticGroup
   private bgFar!: Phaser.GameObjects.TileSprite
   private bgMid!: Phaser.GameObjects.TileSprite
   private bgNear!: Phaser.GameObjects.TileSprite
@@ -22,12 +24,12 @@ export class MainGame extends Phaser.Scene {
 
     this.createParallaxBackground()
     this.createGround()
+    this.createPlatforms()
     this.createDistanceMarkers()
     this.player = new Player(this, 100, GROUND_Y - 48)
-    this.physics.add.collider(
-      this.player as unknown as Phaser.Physics.Arcade.Sprite,
-      this.ground
-    )
+    const playerSprite = this.player as unknown as Phaser.Physics.Arcade.Sprite
+    this.physics.add.collider(playerSprite, this.ground)
+    this.physics.add.collider(playerSprite, this.platforms)
     this.cameras.main.startFollow(this.player, true, 0.1, 0.1)
   }
 
@@ -65,6 +67,15 @@ export class MainGame extends Phaser.Scene {
     this.ground = this.physics.add.staticGroup()
     for (let x = 0; x < WORLD_WIDTH; x += 32) {
       this.ground.create(x + 16, GROUND_Y, 'ground')
+    }
+  }
+
+  private createPlatforms() {
+    this.platforms = this.physics.add.staticGroup()
+    for (const [x, y, tiles] of PLATFORM_DATA) {
+      for (let i = 0; i < tiles; i++) {
+        this.platforms.create(x + i * 32 + 16, y, 'ground')
+      }
     }
   }
 
